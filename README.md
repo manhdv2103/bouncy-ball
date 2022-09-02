@@ -3,5 +3,5 @@ bouncy-ball is a simple 2d bouncy ball physics simulation I wrote for fun when l
 
 ## How to play
 1. Go to [https://manhdv2103.github.io/bouncy-ball](https://manhdv2103.github.io/bouncy-ball).
-2. Use your mouse to drag and drop the ball.
+2. Use your mouse to drag, drop and throw the ball.
 3. Have fun!!!
