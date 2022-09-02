@@ -116,7 +116,7 @@ document.addEventListener("mouseup", e => {
   }
 });
 
-canvas.addEventListener("mousemove", e => {
+document.addEventListener("mousemove", e => {
   if (isHolding) {
     clear();
     ball.x = e.clientX - canvas.offsetLeft + offsetX;
