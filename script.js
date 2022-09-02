@@ -96,7 +96,7 @@ canvas.addEventListener("mousedown", e => {
 let moveTime = 0;
 let mouseMoveSamples = [];
 
-canvas.addEventListener("mouseup", e => {
+document.addEventListener("mouseup", e => {
   if (isHolding) {
     const startPos = mouseMoveSamples[moveTime % 10] || mouseMoveSamples[0];
     const endPos = mouseMoveSamples[(moveTime - 1) % 10];
