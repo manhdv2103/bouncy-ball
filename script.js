@@ -121,6 +121,14 @@ canvas.addEventListener("mousemove", e => {
     clear();
     ball.x = e.clientX - canvas.offsetLeft + offsetX;
     ball.y = e.clientY - canvas.offsetTop + offsetY;
+
+    if (ball.x + ball.radius > canvas.width)
+      ball.x = canvas.width - ball.radius;
+    if (ball.x - ball.radius < 0) ball.x = ball.radius;
+    if (ball.y + ball.radius > canvas.height)
+      ball.y = canvas.height - ball.radius;
+    if (ball.y - ball.radius < 0) ball.y = ball.radius;
+
     ball.draw();
     mouseMoveSamples[moveTime % 10] = [ball.x, ball.y, performance.now()];
     moveTime++;
