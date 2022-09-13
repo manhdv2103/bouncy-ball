@@ -78,13 +78,15 @@ function draw() {
 let offsetX = 0;
 let offsetY = 0;
 let isHolding = false;
+let moveTime = 0;
+let mouseMoveSamples = [];
 
-canvas.addEventListener("mousedown", e => {
+const startGrabEvent = (cursorX, cursorY) => {
   const [offX, offY, distance] = calDistance(
     ball.x,
     ball.y,
-    e.clientX - canvas.offsetLeft,
-    e.clientY - canvas.offsetTop
+    cursorX - canvas.offsetLeft,
+    cursorY - canvas.offsetTop
   );
   offsetX = offX;
   offsetY = offY;
@@ -95,12 +97,9 @@ canvas.addEventListener("mousedown", e => {
     ball.vy = 0;
     window.cancelAnimationFrame(raf);
   }
-});
+};
 
-let moveTime = 0;
-let mouseMoveSamples = [];
-
-document.addEventListener("mouseup", e => {
+const endGrabEvent = () => {
   if (isHolding) {
     const startPos = mouseMoveSamples[moveTime % 10] || mouseMoveSamples[0];
     const endPos = mouseMoveSamples[(moveTime - 1) % 10];
@@ -118,13 +117,13 @@ document.addEventListener("mouseup", e => {
 
     raf = window.requestAnimationFrame(draw);
   }
-});
+};
 
-document.addEventListener("mousemove", e => {
+const moveEvent = (cursorX, cursorY) => {
   if (isHolding) {
     clear();
-    ball.x = e.clientX - canvas.offsetLeft + offsetX;
-    ball.y = e.clientY - canvas.offsetTop + offsetY;
+    ball.x = cursorX - canvas.offsetLeft + offsetX;
+    ball.y = cursorY - canvas.offsetTop + offsetY;
 
     if (ball.x + ball.radius > canvas.width)
       ball.x = canvas.width - ball.radius;
@@ -137,7 +136,20 @@ document.addEventListener("mousemove", e => {
     mouseMoveSamples[moveTime % 10] = [ball.x, ball.y, performance.now()];
     moveTime++;
   }
-});
+};
+
+canvas.addEventListener("mousedown", e => startGrabEvent(e.clientX, e.clientY));
+canvas.addEventListener("touchstart", e =>
+  startGrabEvent(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
+);
+
+document.addEventListener("mouseup", endGrabEvent);
+document.addEventListener("touchend", endGrabEvent);
+
+canvas.addEventListener("mousemove", e => moveEvent(e.clientX, e.clientY));
+canvas.addEventListener("touchmove", e =>
+  moveEvent(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
+);
 
 ball.draw();
 
