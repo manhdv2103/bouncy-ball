@@ -2,6 +2,10 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 let raf;
 
+if (canvas.width >= window.innerWidth) canvas.width = window.innerWidth - 30; // padding
+if (canvas.height >= window.innerHeight)
+  canvas.height = window.innerHeight - 30; // padding: ;
+
 ctx.fillStyle = "rgb(255, 255, 255)";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
